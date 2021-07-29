@@ -1,0 +1,77 @@
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+  
+<mapper namespace="com.pyd.dao.DepositMapper">  
+        
+    <!-- 保存一笔储蓄记录 -->  
+    <insert id="saveDeposit" parameterType="com.pyd.entity.Deposit">  
+        insert into deposit(save_card, save_money,save_way,save_arrive,save_time) 
+        values(#{save_card}, #{save_money},#{save_way},#{save_arrive},#{save_time}) 
+    </insert>
+    
+    <!--删除一笔储蓄记录-->
+    <delete id="deleteDeposit" parameterType="java.lang.Integer">  
+        delete from deposit where id = #{id}
+    </delete>
+    
+    <!--更新储蓄中的金额-->
+    <update id="updateDeposit" parameterType="com.pyd.entity.Deposit">  
+        update deposit set save_money = #{save_money},save_arrive = #{save_arrive} where id = #{id}
+    </update>
+    
+    <!-- 查询所有储蓄 -->
+     <select id="queryAllDeposit" resultType="com.pyd.entity.Deposit">  
+        select * from deposit
+    </select>
+    
+     <!--根据id查询指定储蓄-->
+    <select id="queryDepositById" parameterType="java.lang.Integer" resultType="com.pyd.entity.Deposit">  
+        select * from deposit where id = #{id}
+    </select>
+    
+    <!--查询指定卡号的储蓄记录-->
+    <select id="queryDepositByCard" parameterType="java.lang.String" resultType="com.pyd.entity.Deposit">
+        select * from deposit where save_card = #{save_card}
+    </select>
+      
+    <!-- 根据条件模糊查询储蓄记录 -->
+    <select id="queryDepositByCondition" parameterType="java.lang.String" resultType="com.pyd.entity.Deposit">
+	select * from deposit
+	<where>
+		<if test="_parameter != null">
+			id like #{condition}
+			or save_card like #{condition}
+			or save_money like #{condition}
+			or save_way like #{condition}
+			or save_time like #{condition}
+		</if>
+	</where>
+	 order by id desc
+</select>
+
+<!-- 根据条件模糊查询储蓄记录总条数 -->
+    <select id="queryDepositRecordCnt" parameterType="com.pyd.entity.SearchCondition" resultType="int">
+	select count(*) from deposit
+	<where>
+		<if test="condition != null">
+			id like #{condition}
+			or save_card like #{condition}
+			or save_money like #{condition}
+			or save_way like #{condition}
+			or save_time like #{condition}
+		</if>
+	</where>
+</select>
+
+   <!-- 根据条件精确查询单个用户的储蓄记录 -->
+    <select id="queryOneAccountDeposit" parameterType="java.lang.String" resultType="com.pyd.entity.Deposit">
+	   select * from  deposit where save_card = #{card} order by id desc
+   </select>
+
+<!-- 根据条件模糊查询储蓄记录总条数 -->
+    <select id="queryOneAccountDepositRecordCnt" parameterType="com.pyd.entity.SearchCondition" resultType="int">
+	select count(*) from deposit where save_card = #{condition}
+</select>
+    
+</mapper>  

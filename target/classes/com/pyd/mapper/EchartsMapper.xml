@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+  
+<mapper namespace="com.pyd.dao.EchartsMapper">
+	<!-- 查询账户列表中可用账户中性别为男的账户数量 -->
+    <select id="queryAccountCntMale" resultType="int">
+		select count(*) from account where isDelete = 0 and sex='男'
+    </select>
+	 
+    <!-- 查询账户列表中可用账户中性别为女的账户数量 -->
+    <select id="queryAccountCntFeMale" resultType="int">
+		select count(*) from account where isDelete = 0 and sex='女'
+    </select>
+	   
+    <!-- 查询账户列表中用户余额数量为500元以下 -->
+    <select id="queryAccountMoneyBelow500" resultType="int">
+		select count(*) from account where money between 0 and 500 and isDelete = 0
+    </select>
+    
+    <!-- 查询账户列表中用户余额数量为500元~1000元 -->
+    <select id="queryAccountMoney500to1000" resultType="int">
+		select count(*) from account where money between 500 and 1000 and isDelete = 0
+    </select>
+    
+    <!-- 查询账户列表中用户余额数量为1000元~5000元 -->
+    <select id="queryAccountMoney1000to5000" resultType="int">
+		select count(*) from account where money between 1000 and 5000 and isDelete = 0
+    </select>
+    
+    <!-- 查询账户列表中用户余额数量为10000元以上 -->
+    <select id="queryAccountMoneyAbove5000" resultType="int">
+		select count(*) from account where money > 10000 and isDelete = 0
+    </select>
+    
+    <!-- 查询账户列表中未挂失账户数量 -->
+    <select id="queryAccountNoDelete" resultType="int">
+		select count(*) from account where isDelete = 0
+    </select>
+    
+     <!-- 查询账户列表中已挂失账户数量 -->
+    <select id="queryAccountIsDelete" resultType="int">
+		select count(*) from account where isDelete = 1
+    </select>
+    
+    <!-- 查询储蓄资金列表中各种储蓄方式的资金总额 -->
+    <select id="queryDepositMoney" resultMap="getDepositItems">
+       select save_way,sum(save_money) as save_money from deposit group by save_way    
+    </select>
+    
+    <resultMap id="getDepositItems" type="com.pyd.entity.Deposit">
+        <result column="save_way" property="save_way"/>
+        <result column="save_money" property="save_money"/>
+    </resultMap>
+    
+    <!-- 根据日志列表查询去年系统运营情况-->
+    <select id="queryOperationLastYear" resultType="int">
+       select count(*) from log where year(deal_time)=year(date_sub(now(),interval 1 year))
+    </select>
+    
+    <!-- 根据日志列表查询上一季度系统运营情况-->
+    <select id="queryOperationLastQuarter" resultType="int">
+    select count(*) from log 
+    where quarter(deal_time)=quarter(DATE_SUB(now(),interval 1 quarter)) and year(deal_time)=year(now())
+    </select>
+    
+    <!-- 根据日志列表查询过去七天系统运营情况-->
+    <select id="queryOperationLastSevenDays" resultType="int">
+    select count(*) from log where date_sub(curdate(),interval 7 day) &lt;= date(deal_time);
+    </select>
+    
+    <!-- 根据日志列表查询上一个月运营情况-->
+    <select id="queryOperationLastMonth" resultType="int">
+        select count(*) from log 
+        where period_diff(date_format(now(),'%Y%m'),date_format(deal_time,'%Y%m'))=1;
+    </select>
+        
+    <!-- 根据日志列表查询昨天系统运营情况-->
+    <select id="queryOperationYesterday" resultType="int">
+      select count(*) from log where to_days(now()) - to_days(deal_time) = 1;
+    </select>
+    
+    <!-- 根据日志列表查询今天系统运营情况-->
+    <select id="queryOperationToday" resultType="int">
+         select count(*) from log where to_days(now()) = to_days(deal_time);
+    </select>
+</mapper> 

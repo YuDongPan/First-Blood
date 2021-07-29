@@ -1,0 +1,63 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+	background:url(../img/background_mansion.jpg) !important;
+    }
+.box{
+	 padding-left:20px;
+}
+#in{
+	opacity: 0.8 !important;
+}
+.headingStyle{
+	font-size:30px;
+	color: #fafafa;
+	letter-spacing:0;
+	margin-bottom:20px;
+	text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
+}
+.bdAdd{
+	border:1px solid #ADADAD;
+	margin-bottom:12px;
+	display:flex;
+	flex-direction:row; 
+}
+.pdAdd{
+	border:1px solid #ADADAD;
+	margin-bottom:15px;
+	display:flex;
+	flex-direction:row; 
+}
+.icon-style{
+	padding:10px 0px 0px 10px;
+	display:flex;
+	flex-direction:row;
+}
+.input-style{
+	display:flex;
+	flex-direction:row;
+}
+.inputArea{
+	margin-bottom:0px;
+	border:0px;
+}
+.regionArea{
+ 	width:100%;
+    display: flex;
+    flex-direction: row;
+ }
+.selectItem{
+    width:154px;
+    padding-right: 2px;
+}
+.contractArea{
+	margin-top:15px;
+	width:100%;
+	display:flex;
+	flex-direction:row;
+}
+.regFeedback{
+	color:red;
+	margin:0px 0px 6px 5px;
+	font-size:12px;
+}
